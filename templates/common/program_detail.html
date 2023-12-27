@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %} Групповые программы {% endblock %}
+{% block content %}
+    <div class="list-group list-group-flush">
+        <h1 class="p-3" style="font-size: xxx-large">{{ program.name }}</h1>
+        <p class="list-group-item border-0" style="margin-bottom: 1.5em;"><strong>Стоимость:</strong> {{ program.cost }}
+            руб.</p>
+    </div>
+    <div class="list-group list-group-flush">
+        <p class="col-sm-7 list-group-item border-top-0"><strong>Описание:</strong> {{ program.description }}</p>
+    </div>
+    <div>
+        <a class="btn btn-primary" href="{% url 'programs' %}">Назад</a>
+        {% for group in request.user.groups.all %}
+            {% if group.name == 'Администратор' %}
+                <a class="btn btn-primary" href="{% url 'update-program' pk=program.id %}">Изменить</a>
+                <form class="" style="display: inline;" method="POST" action="{% url "delete-program" pk=program.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-primary">Удалить</button>
+                </form>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

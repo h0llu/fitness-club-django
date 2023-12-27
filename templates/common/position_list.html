@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %} Должности {% endblock %}
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="p-3" style="font-size: xxx-large">Должности</h1>
+        {% for group in request.user.groups.all %}
+            {% if group.name == 'Администратор' %}
+                <a class="" href="{% url 'create-position' %}">Добавить новую должность</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <hr class="mt-0 mb-4"/>
+    <div class="list-group list-group-flush">
+        {% for position in position_list %}
+            <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <div class="">{{ position }}</div>
+                {% for group in request.user.groups.all %}
+                    {% if group.name == 'Администратор' %}
+                        <div>
+                            <div style="margin-right: 1em;"><a href="{% url 'update-position' pk=position.id %}">Изменить</a>
+                            </div>
+                            <form class="p-0 m-0" method="POST" action="{% url "delete-position" pk=position.id %}">
+                                {% csrf_token %}
+                                <button class="btn btn-link btn-primary p-0" type="submit"
+                                        style="font-size: medium; font-weight: 200; text-transform: capitalize;">Удалить
+                                </button>
+                            </form>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

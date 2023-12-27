@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Главная {% endblock title %}
+{% block content %}
+    <div>
+        <h2 class="p-3">О клубе</h2>
+        <ul class="list-group list-group-flush col-sm-3">
+            <li class="list-group-item d-flex align-items-center border-top-0">
+                Групповые программы <span
+                    class="ml-4 badge badge-primary badge-pill">{{ fitness_program_amount }}</span>
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+                Тренеры <span class="ml-4 badge badge-primary badge-pill">{{ trainer_amount }}</span>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <div class="d-flex justify-content-evenly align-items-center">
+            <h2 class="p-3">Популярные программы</h2>
+            <a class="" href="{% url 'programs' %}">Смотреть все</a>
+        </div>
+        <div class="card-deck">
+            {% for program in fitness_program_list %}
+                <div class="card mt-1">
+                    <h5 class="card-header"><b>{{ program.name }}</b></h5>
+                    <div class="card-body">
+                        <p class="card-text text-truncate"><strong>Описание:</strong> {{ program.description }}</p>
+                        <p class=card-text"><strong>Стоимость занятия:</strong> {{ program.cost }} руб.</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-center">
+                        <a class="btn btn-primary" href="{% url 'program-detail' pk=program.id %}">Подробнее</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        <div class="d-flex justify-content-evenly align-items-center">
+            <h2 class="p-3">Наши тренеры</h2>
+            <a class="" href="{% url 'trainers' %}">Смотреть все</a>
+        </div>
+        <div class="card-deck">
+            {% for trainer in trainer_list %}
+                <div class="card mt-1">
+                    <h5 class="card-header"><b>{{ trainer.fitness_employee.fitness_user.full_name }}</b></h5>
+                    <div class="card-body">
+                        <p class="card-text text-truncate"><strong>Описание:</strong> {{ trainer.description }}</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-center">
+                        <a class="btn btn-primary" href="{% url 'trainer-detail' pk=trainer.id %}">Подробнее</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        <h2 class="pt-3 pl-3 pr-3 pb-0 mb-0">Контакты</h2>
+        <ul class="list-group list-group-flush col-sm-5">
+            <li class="list-group-item border-0"><b>Запись на занятия:</b> <a href="tel:88005553535">89771335435</a>
+            </li>
+            <li class="list-group-item border-0"><b>Наш адрес:</b> г. Махачкала, ул. Гагарина, д. 3</li>
+        </ul>
+    </div>
+{% endblock %}

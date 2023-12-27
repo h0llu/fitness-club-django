@@ -1,0 +1,79 @@
+{% url 'positions' as positions %}
+{% url 'programs' as programs %}
+{% url 'workouts' as workouts %}
+{% url 'clients' as clients %}
+{% url 'trainers' as trainers %}
+{% url '/' as main_page %}
+{% url '/' as main_page %}
+<div class="sidebar" data-color="purple" data-background-color="white">
+    <div class="sidebar-wrapper">
+        <ul class="nav">
+            <li class="nav-item {% if request.path == '/' %}active{% endif %}">
+                <a class="nav-link" href="/">
+                    <p>Главная</p>
+                </a>
+            </li>
+            <li class="nav-item {% if request.path == programs %}active{% endif %}">
+                <a class="nav-link" href="{{ programs }}">
+                    <p style="text-transform: none">Групповые программы</p>
+                </a>
+            </li>
+            <li class="nav-item {% if request.path == trainers %}active{% endif %}">
+                <a class="nav-link" href="{{ trainers }}">
+                    <p>Тренеры</p>
+                </a>
+            </li>
+            {% for group in request.user.groups.all %}
+                {% if group.name == 'Администратор' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/page-user.html">
+                            <p>Пользователи (Django)</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/page-user.html">
+                            <p style="text-transform: none">Пользователи (cистемные)</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/page-user.html">
+                            <p>Сотрудники</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item {% if request.path == clients %}active{% endif %}">
+                        <a class="nav-link" href="{{ clients }}">
+                            <p>Клиенты</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item {% if request.path == workouts %}active{% endif %}">
+                        <a class="nav-link" href="{{ workouts }}">
+                            <p>Занятия</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item {% if request.path == positions %}active{% endif %}">
+                        <a class="nav-link" href="{{ positions }}">
+                            <p style="text-transform: none">Должности</p>
+                        </a>
+                    </li>
+{#                {% elif group.name == 'Клиент' %}#}
+{#                    <li class="nav-item">#}
+{#                        <a class="nav-link" href="{{ workouts }}">#}
+{#                            <p>Занятия</p>#}
+{#                        </a>#}
+{#                    </li>#}
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{#admin.site.register(Program)#}
+{#admin.site.register(Position)#}
+{#admin.site.register(Employee)#}
+{#admin.site.register(Trainer)#}
+{#admin.site.register(Client)#}
+{#admin.site.register(Workout)#}
+{#admin.site.register(FitnessUser)#}

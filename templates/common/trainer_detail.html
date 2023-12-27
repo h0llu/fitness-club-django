@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %} Тренеры {% endblock %}
+{% block content %}
+    <h1 class="p-3" style="font-size: xxx-large">{{ trainer }}</h1>
+    <hr class="mt-1 mb-4"/>
+    <ul class="list-group list-group-flush col-sm-7">
+        <li class="list-group-item border-bottom-0"><strong>Описание:</strong> {{ trainer.description }}
+        </li>
+    </ul>
+{#    {% for group in request.user.groups.all %}#}
+{#        {% if group.name == 'Клиент' %}#}
+{#            <hr/>#}
+{#            <div>#}
+{#                <p class="col-sm-7 list-group-item border-top-0" style="font-size: large">#}
+{#                    <strong>Вы записаны на занятие</strong>#}
+{#                </p>#}
+{#            </div>#}
+{#            <hr/>#}
+{#        {% elif group.name == 'Администратор' %}#}
+{#            <div class="mt-4">#}
+{#                <h2>Записанные клиенты</h2>#}
+{#                <hr class="mt-0 mb-4"/>#}
+{#                <ul class="list-group list-group-flush col-sm-7">#}
+{#                    {% for client in workout.client.all %}#}
+{#                        <li class="list-group-item list-group-item-action d-flex#}
+{#                                   justify-content-between align-items-center border-bottom-0">#}
+{#                            <p class="p-0 m-0">{{ client.fitness_user.full_name }}</p>#}
+{#                            <form class="p-0 m-0" method="POST"#}
+{#                                  action="{% url "unregister" client_pk=client.id workout_pk=workout.id %}">#}
+{#                                {% csrf_token %}#}
+{#                                <button class="btn btn-link btn-primary p-0" type="submit"#}
+{#                                        style="font-size: 16px; font-weight: 300; text-transform: initial;">Отменить запись#}
+{#                                </button>#}
+{#                            </form>#}
+{#                        </li>#}
+                        {#                        <p class="col-sm-7 list-group-item border-top-0" style="font-size: large">#}
+                        {#                            <strong>Вы записаны на занятие</strong>#}
+                        {#                        </p>#}
+{#                    {% endfor %}#}
+{#                </ul>#}
+{#            </div>#}
+{#            <hr/>#}
+{#        {% endif %}#}
+{#    {% endfor %}#}
+    <div>
+        <a class="btn btn-primary" href="{% url 'trainers' %}">Назад</a>
+        {% for group in request.user.groups.all %}
+            {% if group.name == 'Администратор' %}
+                <a class="btn btn-primary" href="{% url 'update-trainer' pk=trainer.id %}">Изменить</a>
+                <form style="display: inline;" method="POST" action="{% url "delete-trainer" pk=trainer.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-primary">Удалить</button>
+                </form>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,3 @@
+.list-group-flush:first-child, .list-group-item:first-child {
+border-top: 0;
+}

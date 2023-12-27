@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %} Занятия {% endblock %}
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="p-3" style="font-size: xxx-large">Занятия</h1>
+        {% for group in request.user.groups.all %}
+            {% if group.name == 'Администратор' %}
+                <a class="" href="{% url 'create-workout' %}">Добавить новое занятие</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <hr class="mt-0 mb-4"/>
+    <div class="list-group list-group-flush">
+        {% for workout in workout_list %}
+            <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <div>{{ workout }}</div>
+                <div>
+                    <div style="margin-right: 1em;"><a href="{% url 'workout-detail' pk=workout.id %}">Подробнее</a>
+                    </div>
+                    {% for group in request.user.groups.all %}
+                        {% if group.name == 'Администратор' %}
+                            <form class="p-0 m-0" method="POST" action="{% url "delete-workout" pk=workout.id %}">
+                                {% csrf_token %}
+                                <button class="btn btn-link btn-primary p-0" type="submit"
+                                        style="font-size: medium; font-weight: 200; text-transform: capitalize;">Удалить
+                                </button>
+                            </form>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
